@@ -54,7 +54,7 @@ URL=effort и efforId - което ще доведе до данни за Athlet
 
 Имам следното предложение:
 Backend:
-1. От http://developers.strava.com/docs/authentication "Refresh expired access tokens" може да се напраи refresh на token.
+# От http://developers.strava.com/docs/authentication "Refresh expired access tokens" може да се напраи refresh на token.
 Това да става в някакъв cron job. ( това трябва да го проверя 100% дали съм разбрал правилно)
 http://developers.strava.com/docs/authentication/#refresh-expired-access-tokens
 
@@ -63,20 +63,20 @@ Access tokens expire six hours after they are created, so they must be refreshed
 "
 
 UI:
-1. При click na "страва класация" "backend" да GET-ва и записва в локална база данните с "last_update_timestamp".
-2. Aко "last_update_timestamp” > "update_time_X" пак да ги "GET"-ва, ( пример: refresh on 24 hours on request)
-	По този начин да правим малко API calls и така ще си пазим трафика. (Strava API rate limit: 600 requests every 15 minutes, 30000 daily)
-	Ако преценим може да измилим и друг начин за "refresh"
+# При click na "страва класация" "backend" да GET-ва и записва в локална база данните с "last_update_timestamp".
+# Aко "last_update_timestamp” > "update_time_X" пак да ги "GET"-ва, ( пример: refresh on 24 hours on request)
+	# По този начин да правим малко API calls и така ще си пазим трафика. (Strava API rate limit: 600 # requests every 15 minutes, 30000 daily)
+	# Ако преценим може да измилим и друг начин за "refresh"
 	Също можем да напраим някакъв "internal rate limit" за да пазим API-a.
-3.  UI-a да дава:
+#  UI-a да дава:
 	list: <segment_name> (link to https://www.strava.com/segments/{id} )
 		list: <rank, elapsed_time, athlete_name>
 t.e.
 	Няма да има снимка и линк към профил на потребителя, но ше има линк към "strava segment page".
 
-
+# Postgres docker
 https://hackernoon.com/dont-install-postgres-docker-pull-postgres-bee20e200198
-
+```
 docker pull postgres
 mkdir -p $HOME/docker/volumes/postgres
 docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres
@@ -96,13 +96,15 @@ docker run --name='phppgadmin' -d \
   -e PHP_PG_ADMIN_SERVER_HOST=172.17.0.1 \
   -e PHP_PG_ADMIN_SERVER_DESC=kur \
 dockage/phppgadmin:latest
-
+```
+```
 export STRAVA_CLIENT_ID="123123"
 export STRAVA_CLIENT_SECRET="secret"
 export STRAVA_REFRESH_TOKEN="refresh"
 export STRAVA_ACCESS_TOKEN="token"
+```
 
-
+```
 # save strava setting
 python3 src/python/setting.py --test saveAll --pgHost 192.168.88.254 \
  --clientId ${STRAVA_CLIENT_ID} \
@@ -130,5 +132,5 @@ python3 src/python/cli.py --pgHost 192.168.88.254 \
 python3 src/python/cli.py  --pgHost 192.168.88.254 \
 --cmd updateTrack \
 --segmentId 6
-
+```
 

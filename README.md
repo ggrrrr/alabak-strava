@@ -134,3 +134,17 @@ python3 src/python/cli.py  --pgHost 192.168.88.254 \
 --segmentId 6
 ```
 
+# SQL to extract segment KOM JSON as table
+```
+select 
+id
+, alabak_track_id
+, strava_segment_id
+, strava_kom_type
+, json_array_elements( entries_json) -> 'rank' as "rank"  
+, json_array_elements( entries_json) -> 'name' as "name"  
+, json_array_elements( entries_json) -> 'time' as "time"  
+from strava_leaderboard 
+where 1=1
+and id =4
+```

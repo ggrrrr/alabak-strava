@@ -274,9 +274,7 @@ def pgConnect(args):
         conn = psycopg2.connect(connString)
         logging.info(conn)
         cur = conn.cursor()
-        print("asdasd")
         cur.execute("SET search_path TO " + args.pgSchema)
-        print("asdasd")
         cur.close()
 
         return conn

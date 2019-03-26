@@ -106,6 +106,7 @@ if __name__ == "__main__":
     parser.add_argument('--pgPassword', default='docker', dest='pgPassword', help='pg password')
     parser.add_argument('--pgHost', default='localhost', dest='pgHost', help='pg host')
     parser.add_argument('--pgPort', default=5432, dest='pgPort', type=int, help='pg port ')
+    parser.add_argument('--pgSchema', default='public', dest='pgSchema', help='pg schema')   
 
     parser.add_argument('--clientId', default=None, dest='clientId', help='strava user Id', required=False)
     parser.add_argument('--clientSecret', default=None, dest='clientSecret', help='strava user Id', required=False)

@@ -58,6 +58,10 @@ Backend:
 Това да става в някакъв cron job. ( това трябва да го проверя 100% дали съм разбрал правилно)
 http://developers.strava.com/docs/authentication/#refresh-expired-access-tokens
 
+"Refresh expired access tokens
+Access tokens expire six hours after they are created, so they must be refreshed in order for an application to maintain access to a user’s resources. Applications use the refresh token from initial authentication to obtain new access tokens.
+"
+
 UI:
 1. При click na "страва класация" "backend" да GET-ва и записва в локална база данните с "last_update_timestamp".
 2. Aко "last_update_timestamp” > "update_time_X" пак да ги "GET"-ва, ( пример: refresh on 24 hours on request)
@@ -101,10 +105,10 @@ export STRAVA_ACCESS_TOKEN="token"
 
 # save strava setting
 python3 src/python/setting.py --test saveAll --pgHost 192.168.88.254 \
-	 --clientId ${STRAVA_CLIENT_ID} \
-	 --clientSecret ${STRAVA_CLIENT_SECRET} \
-	 --refreshToken ${STRAVA_REFRESH_TOKEN} \
-	 --accessToken ${STRAVA_ACCESS_TOKEN}
+ --clientId ${STRAVA_CLIENT_ID} \
+ --clientSecret ${STRAVA_CLIENT_SECRET} \
+ --refreshToken ${STRAVA_REFRESH_TOKEN} \
+ --accessToken ${STRAVA_ACCESS_TOKEN}
 
 # refresh strava API token
 python3 src/python/cli.py --pgHost 192.168.88.254 \

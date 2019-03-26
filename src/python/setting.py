@@ -79,6 +79,7 @@ if __name__ == "__main__":
     parser.add_argument('--pgPort', default=5432, dest='pgPort', type=int, help='pg port ')
     parser.add_argument('--test', default=None, dest='test', help='test call ')
     parser.add_argument('--level', default='debug', dest='level', help='level')
+    parser.add_argument('--pgSchema', default='public', dest='pgSchema', help='pg schema')   
 
 
     args = parser.parse_args()

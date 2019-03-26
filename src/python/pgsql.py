@@ -273,6 +273,11 @@ def pgConnect(args):
         connString = pgConnString(args)
         conn = psycopg2.connect(connString)
         logging.info(conn)
+        cur = conn.cursor()
+        print("asdasd")
+        cur.execute("SET search_path TO " + args.pgSchema)
+        print("asdasd")
+        cur.close()
 
         return conn
     except Exception as e:
@@ -288,7 +293,11 @@ def pgConnString(args):
     """
     port = ''
     db = ''
-    out = "host='%s' user='%s' password='%s'" % ( args.pgHost, args.pgUser , args.pgPassword)
+    out = "host='%s' user='%s' password='%s' " % ( 
+        args.pgHost
+        , args.pgUser
+        , args.pgPassword
+        )
 
     if args.pgPort:
         port = "port=%s" % args.pgPort
@@ -373,6 +382,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='alabak.strava PostgresSQL CLI.')
     parser.add_argument('--pgDb', default="alabak", dest='pgDb', help='pg Db default: alabak')
     parser.add_argument('--pgUser', default='postgres', dest='pgUser', help='pg user')
+    parser.add_argument('--pgSchema', default='public', dest='pgSchema', help='pg schema')   
     parser.add_argument('--pgPassword', default='docker', dest='pgPassword', help='pg password')
     parser.add_argument('--pgHost', default='localhost', dest='pgHost', help='pg host')
     parser.add_argument('--pgPort', default=5432, dest='pgPort', type=int, help='pg port ')

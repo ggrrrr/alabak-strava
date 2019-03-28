@@ -15,14 +15,16 @@
 Ето на кратко какво разбрах и по долу какво бих предложил, разбирасе ти решаваш ако те кефи.
 Може и друго да измислим на по бира ;-)
 
+## OPS https://groups.google.com/forum/#!topic/strava-api/HvSDk62y5_g
+
 From API doc:
-https://developers.strava.com/docs/reference/#api-Segments
+# https://developers.strava.com/docs/reference/#api-Segments
 https://developers.strava.com/docs/reference/#api-models-DetailedSegment
 HTTP GET: /segments/{id}
 path params: id: segment ID from site
 
 
-https://developers.strava.com/docs/reference/#api-Segments-getLeaderboardBySegmentId
+# https://developers.strava.com/docs/reference/#api-Segments-getLeaderboardBySegmentId
 https://developers.strava.com/docs/reference/#api-models-SegmentLeaderboard
 HTTP GET: /segments/{id}/leaderboard
 path params: id: segment ID from site
@@ -45,6 +47,14 @@ Returns: entry_count, effort_count, kom_type, entries: [
 		start_date_local, 
 		rank
 	]
+
+# https://developers.strava.com/docs/reference/#api-SegmentEfforts-getEffortsBySegmentId
+List Segment Efforts (getEffortsBySegmentId)
+HTTP GET: /segments/{id}/all_efforts
+path params: id required Integer, in path	The identifier of the segment.
+
+
+
 
 Липсват данни за потребителя (athlete_id) и снимка.
 
@@ -114,8 +124,7 @@ python3 src/python/setting.py --test saveAll --pgHost 192.168.88.254 \
  --accessToken ${STRAVA_ACCESS_TOKEN}
 
 # refresh strava API token
-python3 src/python/cli.py --pgHost 192.168.88.254 \
---cmd refreshToken
+python3 src/python/cli.py --pgHost 192.168.88.254 --cmd refreshToken
 
 # add  strava segment 4992444 to db with alabakTrackId asdasd
 python3 src/python/cli.py  --pgHost 192.168.88.254 \

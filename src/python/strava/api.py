@@ -27,6 +27,8 @@ class StravaApi():
         self.refreshAuthUrl = "/oauth/token"
         self.segmentsUrl = "/segments/%s"
         self.leaderboardUrl = "/segments/%s/leaderboard"
+        self.segmentsEffortsUrl = "/segments/%s/all_efforts"
+        self.segmentsStreamsUrl = "/segments/%s/streams"
 
     def parseArgs(self, args):
         """
@@ -54,7 +56,7 @@ class StravaApi():
             if ( response.status_code == 200):
                 data = response.json()
                 self.log.debug("callLeaderboard:response:%s" % data)
-                return data
+                return data 
             else:
                 self.log.error("callLeaderboard:response:%s:%s" % (response.status_code, response.text ) )
                 if response.status_code == 404:
@@ -144,6 +146,38 @@ class StravaApi():
             raise e
         return True
 
+    def callSegmentsEfforts(self, id):
+        """
+        Make call to strava Segment efforts for segment id
+        """
+        data = None
+        if self.accessToken is None:
+            raise NameError("accessToken is none")
+        # self.log.info("refreshToken:%s" % inline)
+        path = self.segmentsEffortsUrl % id
+        url = "%s%s%s" % ( self.baseUrl,self.apiUrl, path)
+        self.log.info("callSegmentsEfforts:url:%s" % url)
+        headers = {'Authorization': "Bearer %s" % self.accessToken}
+        try:
+            response = requests.get(url, headers=headers)
+            if ( response.status_code == 200):
+                print("-------")
+                print(response.text)
+                print("-------")
+                data = response.json()
+                self.log.debug("callSegmentsEfforts:response:%s" % data)
+                return data
+            else:
+                self.log.error("callSegmentsEfforts:response:%s:%s" % (response.status_code, response.text ) )
+                if response.status_code == 404:
+                    raise Exception("strava.return.error.callSegmentsEfforts not found::%s" % (id ) ) 
+                raise Exception("strava.return.error:%s:%s" % (response.status_code, response.text ) ) 
+
+        except Exception as e:
+            self.log.error("%s, %s" % (type(e).__name__, e.args ) )
+            error = "%s" % (type(e).__name__ )
+            raise e
+
 
 def call(args):
     if args.call is None:
@@ -159,10 +193,24 @@ def call(args):
         return 
     if args.call == "leaderboard":
         id = 4920835
-        data = strava.callLeaderboard('4920835')
+        if args.id is not None:
+
+            id = args.id
+        data = strava.callLeaderboard(id)
         from objects import SegmentLeaderboard
         leaderboard = SegmentLeaderboard(strava_segment_id = id, jsonData = data)
         print(leaderboard)
+        return 
+    if args.call == "efforts":
+        id = 4920835
+        if args.id is not None:
+            id = args.id
+        data = strava.callSegmentsEfforts(id)
+        # from objects import SegmentLeaderboard
+        # leaderboard = SegmentLeaderboard(strava_segment_id = id, jsonData = data)
+
+        # print(data)
+        print(data[0])
         return 
 
     logging.error("call:%s not known" % args.call)
@@ -178,6 +226,7 @@ if __name__ == "__main__":
     parser.add_argument('--accessToken', default=None, dest='accessToken', help='accessToken')
     parser.add_argument('--call', default=None, dest='call', help='call refresh')
     parser.add_argument('--level', default='debug', dest='level', help='level')
+    parser.add_argument('--id', default=None, dest='id', help='id of shit', required = False)
 
     args = parser.parse_args()
 

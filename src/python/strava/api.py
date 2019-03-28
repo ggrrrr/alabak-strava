@@ -161,11 +161,8 @@ class StravaApi():
         try:
             response = requests.get(url, headers=headers)
             if ( response.status_code == 200):
-                print("-------")
-                print(response.text)
-                print("-------")
+                self.log.debug("callSegmentsEfforts:response:%s" % response.text)
                 data = response.json()
-                self.log.debug("callSegmentsEfforts:response:%s" % data)
                 return data
             else:
                 self.log.error("callSegmentsEfforts:response:%s:%s" % (response.status_code, response.text ) )
@@ -179,7 +176,7 @@ class StravaApi():
             raise e
 
 
-def call(args):
+def main(args):
     if args.call is None:
         logging.error("call not set")
         return
@@ -236,5 +233,5 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.INFO)
     
     logging.info("args: %s" % args )
-    call(args)
+    main(args)
 

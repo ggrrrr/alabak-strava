@@ -44,13 +44,14 @@ def addSegment(conn, args):
 
     segment = objects.Segment(jsonData = strava.callSegment(strava_segment_id))
 
-    leaderboard = objects.SegmentLeaderboard(strava_segment_id
-        , strava.callLeaderboard(strava_segment_id) )
+    leaderboard = objects.SegmentLeaderboard(strava_segment_id = strava_segment_id
+        , jsonData = strava.callLeaderboard(strava_segment_id) )
     leaderboard.setAlabakTrackId(trackId)
+    leaderboard.strava_segment_name = segment.strava_segment_name
+    leaderboard.strava_sport = segment.strava_sport
 
     conn = pgsql.pgConnect(args)
-
-    conn = pgsql.pgConnect(args)
+    logging.debug(leaderboard)
     pgsql.SegmentLeaderboardSql.insert( conn, leaderboard)
     conn.close()
 

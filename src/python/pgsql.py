@@ -88,25 +88,6 @@ order by 1 desc
             conn.commit()
             cur.close()
 
-class SegmentSql:
-    def createSql(self):
-        return ["""CREATE TABLE strava_segment(
-"alabak_track_id" character varying(255) NOT NULL,
-"strava_segment_id" bigint NOT NULL,
-"strava_segment_name" character varying(255) NOT NULL,
-"strava_activity_type" character varying(255) NULL,
-"strava_distance" character varying(255) NULL,
-"strava_average_grade" character varying(255) NULL
-"strava_effort_count" character varying(255) NULL
-)"""
-                ,"""CREATE INDEX strava_segment_track_id
-ON strava_segment USING btree
-(alabak_track_id )
-TABLESPACE pg_default"""]
-
-    def dropSql(self):
-        return ["""DROP TABLE strava_segment""", """DROP INDEX strava_segment_track_id"""]
-
 class SegmentLeaderboardSql:
     def createSql():
         out = [
@@ -118,6 +99,8 @@ class SegmentLeaderboardSql:
     "upd_ts" TIMESTAMP default now(),    
     "alabak_track_id" character varying(255) NOT NULL,
     "strava_segment_id" bigint NOT NULL,
+    "strava_sport" character varying(255) NOT NULL,
+    "strava_segment_name" character varying(255) NOT NULL,
     "strava_kom_type" character varying(255) NOT NULL,
     "strava_entry_count" character varying(255) NULL,
     "strava_effort_count" character varying(255) NULL,
@@ -143,13 +126,17 @@ class SegmentLeaderboardSql:
             """insert into strava_leaderboard (
             strava_segment_id
             , alabak_track_id
+            , strava_sport
+            , strava_segment_name
             , strava_kom_type
             , strava_entry_count
             , strava_effort_count
             , entries_json
-            ) values ( %s, %s, '%s', '%s', '%s', '%s') """ % (
+            ) values ( %s, %s, '%s', '%s', '%s', '%s', '%s', '%s') """ % (
                 o.strava_segment_id
                 , ( 'Null' if o.alabak_track_id is None else "'%s'" % o.alabak_track_id)
+                , o.strava_sport
+                , o.strava_segment_name
                 , o.strava_kom_type
                 , o.strava_entry_count
                 , o.strava_effort_count 

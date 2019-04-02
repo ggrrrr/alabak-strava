@@ -42,9 +42,8 @@ class Segment(StravaDto):
         self.map = {
                 'id': 'strava_segment_id'
                 ,'name': 'strava_segment_name'
-                ,'activity_type': 'strava_activity_type'
+                ,'activity_type': 'strava_sport'
                 ,'distance': 'strava_distance'
-
                 ,'average_grade': 'strava_average_grade'
                 ,'effort_count': 'strava_effort_count'
                 # ,'start_latlng': 'start_latlng'
@@ -66,12 +65,14 @@ class SegmentLeaderboard(StravaDto):
         self.LOG = logging.getLogger('alabak.strava.SegmentLeaderboard')
         self.entries = list()
         self.id = None
+        self.segment_name = None
         self.alabak_track_id = None
         self.strava_segment_id = strava_segment_id
         self.map = {
                 'entry_count':'strava_entry_count'
                 ,'effort_count':'strava_effort_count'
                 ,'kom_type':'strava_kom_type'
+                ,'name':'strava_segment_name'
                 ,'entries':{
                     'method':self.loadList
                     , 'class':SegmentLeaderboardEntry
@@ -90,8 +91,9 @@ class SegmentLeaderboard(StravaDto):
         self.alabak_track_id = id
 
     def __repr__(self):
-        return "SegmentLeaderboard: entrys: id: %s, kom: %s, entry: %s, effort: %s, entries: %s\n" % ( 
+        return "SegmentLeaderboard: entrys: id: %s/%s, kom: %s, entry: %s, effort: %s, entries: %s\n" % ( 
                 self.strava_segment_id
+                , self.strava_segment_name
                 , self.strava_kom_type
                 , self.strava_entry_count
                 , self.strava_effort_count

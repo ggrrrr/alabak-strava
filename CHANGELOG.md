@@ -1,4 +1,4 @@
-* SQL udpate 2019-04-02 tag: v0.1
+* SQL udpate 2019-04-02
 ```
 alter table strava_leaderboard
 add column strava_segment_name character varying(255) NOT NULL

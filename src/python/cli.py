@@ -91,11 +91,12 @@ def updateAll(conn, args):
         logging.debug("fetchData for: id:%s, strava_segment_id:%s" % (id, strava_segment_id))
 
         "fetch segment leaderboard from strava API"
-        segment = objects.Segment(jsonData = strava.callSegment(strava_segment_id))
 
         leaderboard = objects.SegmentLeaderboard(strava_segment_id, strava.callLeaderboard(strava_segment_id) )
-        leaderboard.strava_segment_name = segment.strava_segment_name
-        leaderboard.strava_sport = segment.strava_sport
+        if args.updateSegment:
+            segment = objects.Segment(jsonData = strava.callSegment(strava_segment_id))
+            leaderboard.strava_segment_name = segment.strava_segment_name
+            leaderboard.strava_sport = segment.strava_sport
 
         logging.debug("data:%s" % (leaderboard))
 
@@ -107,6 +108,7 @@ if __name__ == "__main__":
     pgsql.setArgparse(parser)
     api.setArgparse(parser)
 
+    parser.add_argument('--updateSegment', action='store_true', dest='updateSegment', help='fetch segment name and update it')
     parser.add_argument('--trackId', default=None, dest='trackId', help='alabak track id')
     parser.add_argument('--stravaSegmentId', default=None, dest='stravaSegmentId', help='strava Segment Id')
     parser.add_argument('--segmentId', default=None, dest='segmentId', help='db id')

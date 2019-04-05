@@ -65,14 +65,14 @@ class SegmentLeaderboard(StravaDto):
         self.LOG = logging.getLogger('alabak.strava.SegmentLeaderboard')
         self.entries = list()
         self.id = None
-        self.segment_name = None
+        self.strava_segment_name = None
+        self.strava_sport = None
         self.alabak_track_id = None
         self.strava_segment_id = strava_segment_id
         self.map = {
                 'entry_count':'strava_entry_count'
                 ,'effort_count':'strava_effort_count'
                 ,'kom_type':'strava_kom_type'
-                ,'name':'strava_segment_name'
                 ,'entries':{
                     'method':self.loadList
                     , 'class':SegmentLeaderboardEntry

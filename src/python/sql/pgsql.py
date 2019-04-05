@@ -150,6 +150,8 @@ class SegmentLeaderboardSql:
             "" if leaderboard.strava_kom_type is None else ( "strava_kom_type = '%s'" % leaderboard.strava_kom_type)
             , "" if leaderboard.strava_entry_count is None else ( "strava_entry_count = '%s'" % leaderboard.strava_entry_count)
             , "" if leaderboard.entries is None else ( "entries_json = '%s'" % leaderboard.entriesJson())
+            , "" if leaderboard.strava_segment_name is None else ( "strava_segment_name = '%s'" % leaderboard.strava_segment_name)
+            , "" if leaderboard.strava_sport is None else ( "strava_sport = '%s'" % leaderboard.strava_sport)
         ]
         sql = """update  strava_leaderboard set 
             upd_ts = now(), 

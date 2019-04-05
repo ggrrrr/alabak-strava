@@ -116,36 +116,41 @@ export STRAVA_REFRESH_TOKEN="refresh"
 export STRAVA_ACCESS_TOKEN="token"
 ```
 
+## Requirements python3
+
 # backup libs
 ```pip freeze > requirements.txt```
+
 # install libs 
 ```pip install -r requirements.txt```
 
+# Usage
+
 ```
 # save strava setting
-python3 src/python/setting.py --test saveAll --pgHost 192.168.88.254 \
+python src/python/setting.py --test saveAll --pgHost 192.168.88.254 \
  --clientId ${STRAVA_CLIENT_ID} \
  --clientSecret ${STRAVA_CLIENT_SECRET} \
  --refreshToken ${STRAVA_REFRESH_TOKEN} \
  --accessToken ${STRAVA_ACCESS_TOKEN}
 
 # refresh strava API token
-python3 src/python/cli.py --pgHost 192.168.88.254 --cmd refreshToken
+python src/python/cli.py --pgHost 192.168.88.254 --cmd refreshToken
 
 # add  strava segment 4992444 to db with alabakTrackId asdasd
-python3 src/python/cli.py  --pgHost 192.168.88.254 \
+python src/python/cli.py  --pgHost 192.168.88.254 \
 --cmd addSegment \
 --trackId asdasd \
 --stravaSegmentId 4992444
 
 # fetch data from dababase
-python3 src/python/cli.py --pgHost 192.168.88.254 \
+python src/python/cli.py --pgHost 192.168.88.254 \
 --cmd fetchLeaderboard \
 --trackId asdasd \
 --stravaSegmentId "4992444"
 
 # update data in database with db primary id 6
-python3 src/python/cli.py  --pgHost 192.168.88.254 \
+python src/python/cli.py  --pgHost 192.168.88.254 \
 --cmd updateTrack \
 --segmentId 6
 ```

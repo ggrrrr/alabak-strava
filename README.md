@@ -93,20 +93,21 @@ mkdir -p $HOME/docker/volumes/postgres
 docker run --rm   --name pg-docker -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres
 
 docker pull dpage/pgadmin4
+
 docker run -p 8080:80 \
         -e "PGADMIN_DEFAULT_EMAIL=user@domain.com" \
         -e "PGADMIN_DEFAULT_PASSWORD=SuperSecret" \
         -d dpage/pgadmin4
 
-
-
 docker pull dockage/phppgadmin:latest
+
 docker run --name='phppgadmin' -d \
   --publish=8080:80 \
   -e PHP_PG_ADMIN_SERVER_PORT=5431 \
   -e PHP_PG_ADMIN_SERVER_HOST=172.17.0.1 \
   -e PHP_PG_ADMIN_SERVER_DESC=kur \
 dockage/phppgadmin:latest
+
 ```
 ```
 export STRAVA_CLIENT_ID="123123"
@@ -114,6 +115,11 @@ export STRAVA_CLIENT_SECRET="secret"
 export STRAVA_REFRESH_TOKEN="refresh"
 export STRAVA_ACCESS_TOKEN="token"
 ```
+
+# backup libs
+```pip freeze > requirements.txt```
+# install libs 
+```pip install -r requirements.txt```
 
 ```
 # save strava setting

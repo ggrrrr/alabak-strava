@@ -3,10 +3,8 @@ import logging
 import sys
 
 from strava import api, objects
-import pgsql
+from sql import pgsql
 import setting as pgSetting
-
-
 
 def loadSetting(conn, args):
     setting = pgSetting.StravaSetting(dbConn = conn, args = args)
@@ -93,7 +91,11 @@ def updateAll(conn, args):
         logging.debug("fetchData for: id:%s, strava_segment_id:%s" % (id, strava_segment_id))
 
         "fetch segment leaderboard from strava API"
+        segment = objects.Segment(jsonData = strava.callSegment(strava_segment_id))
+
         leaderboard = objects.SegmentLeaderboard(strava_segment_id, strava.callLeaderboard(strava_segment_id) )
+        leaderboard.strava_segment_name = segment.strava_segment_name
+        leaderboard.strava_sport = segment.strava_sport
 
         logging.debug("data:%s" % (leaderboard))
 
@@ -102,28 +104,17 @@ def updateAll(conn, args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='alabak.strava CLI.')
-    parser.add_argument('--pgDb', default="alabak", dest='pgDb', help='pg Db default: alabak')
-    parser.add_argument('--pgUser', default='postgres', dest='pgUser', help='pg user')
-    parser.add_argument('--pgPassword', default='docker', dest='pgPassword', help='pg password')
-    parser.add_argument('--pgHost', default='localhost', dest='pgHost', help='pg host')
-    parser.add_argument('--pgPort', default=5432, dest='pgPort', type=int, help='pg port ')
-    parser.add_argument('--pgSchema', default='public', dest='pgSchema', help='pg schema')   
-
-    parser.add_argument('--clientId', default=None, dest='clientId', help='strava user Id', required=False)
-    parser.add_argument('--clientSecret', default=None, dest='clientSecret', help='strava user Id', required=False)
-    parser.add_argument('--grantType', default='refresh_token', dest='grantType', help='strava grant type for refresh token', required=False)
-    parser.add_argument('--refreshToken', default=None, dest='refreshToken', help='strava refresh token', required=False)
-    parser.add_argument('--accessToken', default=None, dest='accessToken', help='strava access token', required=False)
-    parser.add_argument('--stravaCall', default=None, dest='stravaCall', help='strava API call refresh', required=False)
+    pgsql.setArgparse(parser)
+    api.setArgparse(parser)
 
     parser.add_argument('--trackId', default=None, dest='trackId', help='alabak track id')
     parser.add_argument('--stravaSegmentId', default=None, dest='stravaSegmentId', help='strava Segment Id')
     parser.add_argument('--segmentId', default=None, dest='segmentId', help='db id')
 
-    cmds = ['fetchLeaderboard', 'addSegment', 'updateTrack', 'refreshToken', 'updateAll']
+    _cmds = ['fetchLeaderboard', 'addSegment', 'updateTrack', 'refreshToken', 'updateAll']
 
     parser.add_argument('--cmd', default=None,dest='cmd'
-                        , choices=cmds, help='what to do')
+                        , choices=_cmds, help='what to do')
 
     parser.add_argument('--level', default='error', dest='level', help='level')
 

@@ -212,15 +212,17 @@ def main(args):
 
     logging.error("call:%s not known" % args.call)
 
+def setArgparse(parser):
+    parser.add_argument('--clientId', default=None, dest='clientId', help='pg Db', required=False)
+    parser.add_argument('--clientSecret', default=None, dest='clientSecret', help='clientSecret', required=False)
+    parser.add_argument('--grantType', default='refresh_token', dest='grantType', help='grantType', required=False)
+    parser.add_argument('--refreshToken', default=None, dest='refreshToken', help='pg host', required=False)
+    parser.add_argument('--accessToken', default=None, dest='accessToken', help='accessToken', required=False)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='alabak.strava API CLI.')
-    parser.add_argument('--clientId', default=None, dest='clientId', help='pg Db')
-    parser.add_argument('--clientSecret', default=None, dest='clientSecret', help='pg user')
-    parser.add_argument('--grantType', default='refresh_token', dest='grantType', help='pg password')
-    parser.add_argument('--refreshToken', default=None, dest='refreshToken', help='pg host')
-    parser.add_argument('--accessToken', default=None, dest='accessToken', help='accessToken')
+    setArgparse(parser)
     parser.add_argument('--call', default=None, dest='call', help='call refresh')
     parser.add_argument('--level', default='debug', dest='level', help='level')
     parser.add_argument('--id', default=None, dest='id', help='id of shit', required = False)

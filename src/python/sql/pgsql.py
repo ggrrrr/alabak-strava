@@ -361,16 +361,18 @@ def dropSql(conn):
     executeSqls( conn, SettingSql.dropSql())
     # executeSqls( conn, SegmentLeaderboardEntrySql.dropSql())
 
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='alabak.strava PostgresSQL CLI.')
+def setArgparse(parser):
     parser.add_argument('--pgDb', default="alabak", dest='pgDb', help='pg Db default: alabak')
     parser.add_argument('--pgUser', default='postgres', dest='pgUser', help='pg user')
     parser.add_argument('--pgSchema', default='public', dest='pgSchema', help='pg schema')   
     parser.add_argument('--pgPassword', default='docker', dest='pgPassword', help='pg password')
     parser.add_argument('--pgHost', default='localhost', dest='pgHost', help='pg host')
     parser.add_argument('--pgPort', default=5432, dest='pgPort', type=int, help='pg port ')
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='alabak.strava PostgresSQL CLI.')
+    setArgparse(parser)
     parser.add_argument('--install', default=None, dest='install', help=' call createSql, dropSql')
 
     args = parser.parse_args()

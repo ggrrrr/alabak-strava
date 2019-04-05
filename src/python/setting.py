@@ -1,7 +1,8 @@
 import argparse
 import logging
 
-import pgsql
+from sql import pgsql
+from strava import api
 
 class StravaSetting:
     def __init__(self, dbConn=None, args=None):
@@ -67,20 +68,11 @@ class StravaSetting:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='alabak.strava PostgresSQL CLI.')
-    parser.add_argument('--clientId', default=None, dest='clientId', help='pg Db', required=False)
-    parser.add_argument('--clientSecret', default=None, dest='clientSecret', help='clientSecret', required=False)
-    parser.add_argument('--grantType', default='refresh_token', dest='grantType', help='grantType', required=False)
-    parser.add_argument('--refreshToken', default=None, dest='refreshToken', help='pg host', required=False)
-    parser.add_argument('--accessToken', default=None, dest='accessToken', help='accessToken', required=False)
-    parser.add_argument('--pgDb', default="alabak", dest='pgDb', help='pg Db default: alabak')
-    parser.add_argument('--pgUser', default='postgres', dest='pgUser', help='pg user')
-    parser.add_argument('--pgPassword', default='docker', dest='pgPassword', help='pg password')
-    parser.add_argument('--pgHost', default='localhost', dest='pgHost', help='pg host')
-    parser.add_argument('--pgPort', default=5432, dest='pgPort', type=int, help='pg port ')
-    parser.add_argument('--test', default=None, dest='test', help='test call ')
-    parser.add_argument('--level', default='debug', dest='level', help='level')
-    parser.add_argument('--pgSchema', default='public', dest='pgSchema', help='pg schema')   
+    pgsql.setArgparse(parser)
+    api.setArgparse(parser)
 
+    parser.add_argument('--level', default='debug', dest='level', help='level')
+    parser.add_argument('--cmd', default=None, dest='cmd', help='call saveAll|readAll ')
 
     args = parser.parse_args()
 
@@ -91,16 +83,15 @@ if __name__ == "__main__":
 
     # logging.info("conn string: %s" % pgConnString(args) )
 
-    if args.test is not None:
-
+    if args.cmd is not None:
         conn = pgsql.pgConnect(args)
         setting = StravaSetting(dbConn = conn, args = args)
-        if "readAll" in args.test: 
+        if "readAll" in args.cmd: 
             # createSql(conn)
             setting.readAll()
             logging.info("read: %s" % args )
             # pass
-        if "saveAll" in args.test: 
+        if "saveAll" in args.cmd: 
             # createSql(conn)
             setting.saveAll()
             # pass

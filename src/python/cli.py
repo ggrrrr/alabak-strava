@@ -4,7 +4,7 @@ import sys
 
 from strava import api, objects
 from sql import pgsql
-import setting as pgSetting
+import  setting as pgSetting
 
 def loadSetting(conn, args):
     setting = pgSetting.StravaSetting(dbConn = conn, args = args)

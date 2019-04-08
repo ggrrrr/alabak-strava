@@ -160,6 +160,7 @@ class SegmentLeaderboardSql:
             ", \n\t".join(up)
             , id
             )
+        print(sql)
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         try:
             # print(sql)

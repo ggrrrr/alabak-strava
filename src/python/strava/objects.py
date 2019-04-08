@@ -119,7 +119,7 @@ class SegmentLeaderboardEntry(StravaDto):
                 ,'elapsed_time':'strava_elapsed_time'
                 # ,'moving_time':'strava_moving_time'
                 ,'start_date':'strava_start_date'
-                # ,'start_date_local':'strava_start_date_local'
+                ,'start_date_local':'strava_start_date_local'
                 ,'rank':'strava_rank'
             }
         StravaDto.__init__(self, jsonData)
@@ -131,18 +131,21 @@ class SegmentLeaderboardEntry(StravaDto):
         self.strava_leaderboard_id = id
 
     def __repr__(self):
-        return "SegmentLeaderboardEntry: %s, rank: %s, name: %s, time: %s\n" % ( 
+        return "SegmentLeaderboardEntry: %s, rank: %s, name: %s, time: %s, start_time: %s\n" % ( 
             self.strava_segment_id
             , self.strava_rank
             , self.strava_athlete_name
             , self.strava_elapsed_time
+            , self.strava_start_date_local
             )
 
     def json(self):
-        return """{"rank":"%s","name":"%s","time":"%s"}""" % ( 
+        return """{"rank":"%s","name":"%s","time":"%s","start_time":"%s"}""" % ( 
             self.strava_rank
             , self.strava_athlete_name
             , self.strava_elapsed_time
+            # , self.strava_start_date
+            , self.strava_start_date_local
             )
 
 if __name__ == '__main__':

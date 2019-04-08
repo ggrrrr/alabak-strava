@@ -107,16 +107,10 @@ docker run --name='phppgadmin' -d \
   -e PHP_PG_ADMIN_SERVER_HOST=172.17.0.1 \
   -e PHP_PG_ADMIN_SERVER_DESC=kur \
 dockage/phppgadmin:latest
-
-```
-```
-export STRAVA_CLIENT_ID="123123"
-export STRAVA_CLIENT_SECRET="secret"
-export STRAVA_REFRESH_TOKEN="refresh"
-export STRAVA_ACCESS_TOKEN="token"
 ```
 
-## Requirements python3
+
+## Requirements python3, venv
 
 # backup libs
 ```pip freeze > requirements.txt```
@@ -125,6 +119,12 @@ export STRAVA_ACCESS_TOKEN="token"
 ```pip install -r requirements.txt```
 
 # Usage
+```
+export STRAVA_CLIENT_ID="123123"
+export STRAVA_CLIENT_SECRET="secret"
+export STRAVA_REFRESH_TOKEN="refresh"
+export STRAVA_ACCESS_TOKEN="token"
+```
 
 ```
 # save strava setting
